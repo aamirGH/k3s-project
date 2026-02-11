@@ -27,7 +27,7 @@ jobs:
       run: kubectl get nodes
 
     - name: Deploy ConfigMap
-      run: kubectl apply -f kubernetes/configMap-nginx.yml
+      run: kubectl apply -f kubernetes/cinfigMap-nginx.yml
 
     - name: Deploy Application
       run: kubectl apply -f kubernetes/deployment-nginx.yml
