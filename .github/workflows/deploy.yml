@@ -27,13 +27,13 @@ jobs:
       run: kubectl get nodes
 
     - name: Deploy ConfigMap
-      run: kubectl apply -f k3s-project/kubernetes/configMap-nginx.yml
+      run: kubectl apply -f kubernetes/configMap-nginx.yml
 
     - name: Deploy Application
-      run: kubectl apply -f k3s-project/kubernetes/deployment-nginx.yml
+      run: kubectl apply -f kubernetes/deployment-nginx.yml
 
     - name: Deploy Service
-      run: kubectl apply -f k3s-project/kubernetes/service-nginx.yml
+      run: kubectl apply -f kubernetes/service-nginx.yml
 
     - name: Verify Deployment
       run: |
