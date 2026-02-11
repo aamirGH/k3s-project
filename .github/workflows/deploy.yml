@@ -1,0 +1,41 @@
+name: Deploy to K3s
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Configure kubeconfig
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > ~/.kube/config
+        chmod 600 ~/.kube/config
+
+    - name: Verify Cluster Access
+      run: kubectl get nodes
+
+    - name: Deploy ConfigMap
+      run: kubectl apply -f k3s-project/kubernetes/configMap-nginx.yml
+
+    - name: Deploy Application
+      run: kubectl apply -f k3s-project/kubernetes/deployment-nginx.yml
+
+    - name: Deploy Service
+      run: kubectl apply -f k3s-project/kubernetes/service-nginx.yml
+
+    - name: Verify Deployment
+      run: |
+        kubectl get pods
+        kubectl get svc
