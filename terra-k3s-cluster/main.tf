@@ -26,14 +26,6 @@ resource "aws_security_group" "k3s_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
-  ingress {
-    from_port   = 30007
-    to_port     = 30007
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
 
   egress {
     from_port   = 0
@@ -63,7 +55,8 @@ resource "aws_instance" "k3s" {
     "sudo mkdir -p /home/ubuntu/.kube",
     "sudo cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config",
     "sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config",
-    "sudo chmod 700 /home/ubuntu/.kube/config",
+	"sudo chmod 700 /home/ubuntu/.kube/config",
+	"sleep 20",
 	
 	# Prepare kubeconfig
     "sudo cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/k3s.yaml",
@@ -87,6 +80,8 @@ resource "aws_instance" "k3s" {
 
 
 # ---------------- OUTPUT BASE64 ----------------
-output "k3s_kubeconfig_base64" {
-  value = file("${path.module}/kubeconfig.b64")
+output "next_step_instruction" {
+  value = "Take secret from file k3s.yaml.b64 and update on GitActions"
 }
+
+
