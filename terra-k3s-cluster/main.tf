@@ -26,6 +26,13 @@ resource "aws_security_group" "k3s_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port   = 30007
+    to_port     = 30007
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 
   egress {
     from_port   = 0
@@ -83,5 +90,4 @@ resource "aws_instance" "k3s" {
 output "next_step_instruction" {
   value = "Take secret from file k3s.yaml.b64 and update on GitActions"
 }
-
 
