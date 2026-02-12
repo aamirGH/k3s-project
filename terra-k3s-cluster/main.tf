@@ -35,16 +35,21 @@ resource "aws_security_group" "k3s_sg" {
 }
 
 resource "aws_instance" "k3s" {
-  ami                    = "ami-02b8269d5e85954ef"
-  instance_type          = "t3.medium"
-  key_name               = "key"
-  vpc_security_group_ids = [aws_security_group.k3s_sg.id]
+  ami                         = "ami-02b8269d5e85954ef"
+  instance_type               = "t3.medium"
+  key_name                    = "key"
+  subnet_id                   = "subnet-01d07762d5d1cd6cd"
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.k3s_sg.id]
 
   provisioner "remote-exec" {
     inline = [
       "sudo apt update -y",
       "sudo apt install -y curl",
-      "curl -sfL https://get.k3s.io | sh -",
+
+      # Install K3s with Public IP as TLS SAN
+      "curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC=\"--tls-san ${self.public_ip}\" sh -",
+
       "sudo mkdir -p /home/ubuntu/.kube",
       "sudo cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config",
       "sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config"
@@ -62,4 +67,3 @@ resource "aws_instance" "k3s" {
     Name = "k3s-server"
   }
 }
-
