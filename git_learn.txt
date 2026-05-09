@@ -18,3 +18,5 @@ git config --global --edit
 
 
 add line from test
+
+new line in test
