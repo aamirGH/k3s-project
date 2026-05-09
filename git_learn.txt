@@ -1,0 +1,17 @@
+git init											### to convert dir into local repository of git
+git status											### to check the status of file in working are or staging area
+vi index.html										### currently index.html file in work space
+git add index.html									### index.html file in staging area now
+git status	
+
+git commit -m "1st commt" index.html
+git commit -im "merge cr-br" web.html				###-i basically tells it to stage additional files before committing				
+git log												### it shows all commits
+git log --oneline									### to show logs in one line
+git log -2  										### shows latest 2 logs
+git show ba37464331793ac706dca339d00ac4fdce54d46d 	###commit id	### its shows details for a commit
+
+git config --global user.name aamir
+git config --global user.email aamirhdfs@gmail.com
+git config --list
+git config --global --edit
