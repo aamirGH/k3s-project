@@ -15,5 +15,3 @@ git config --global user.name aamir
 git config --global user.email aamirhdfs@gmail.com
 git config --list
 git config --global --edit
-
-editing in main
